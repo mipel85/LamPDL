@@ -6,9 +6,10 @@
  * @version     PHPBoost 6.0 - last update: 2024 12 22
  * @since       PHPBoost 6.0 - 2024 12 22
  */
-
 class LamdeskHomeController extends DefaultModuleController
 {
+    private $version = '02.02.26';
+
     protected function get_template_to_use()
     {
         return new FileTemplate('lamdesk/LamdeskHomeController.tpl');
@@ -16,6 +17,8 @@ class LamdeskHomeController extends DefaultModuleController
 
     public function execute(HTTPRequestCustom $request)
     {
+        $this->check_authorizations();
+
         $this->build_view($request);
 
         return $this->generate_response();
@@ -23,8 +26,40 @@ class LamdeskHomeController extends DefaultModuleController
 
     public function build_view(HTTPRequestCustom $request)
     {
-        $this->view->put('MENU', LamdeskMenu::get_menu());
+        $this->view->put_all([
+                'VERSION'=> $this->version,
+                'MENU'=> LamdeskMenu::get_menu()
+        ]);
+//        $this->view->put('MENU', LamdeskMenu::get_menu());
+
+        /* table clubs */
+        $nb_clubs_inscrits = LamdeskService::count_clubs_site();
+//        $this->view->put('NB_CLUBS_INSCRITS', $nb_clubs_inscrits[0]);
+
+        $nb_clubs_ffam = LamdeskService::count_clubs_ffam();
+        $this->view->put('NB_CLUBS_FFAM', $nb_clubs_ffam[0]);
+
+        $ratio = round($nb_clubs_inscrits[0] / $nb_clubs_ffam[0] * 100) . "%";
+        $this->view->put('RATIO', $ratio);
+
+        /* table manifestations */
+        $nb_clubs_planning = LamdeskService::count_clubs_planning();
+//      Debug::stop($nb_clubs_planning);
+
+        $this->view->put('NB_CLUBS_MANIFS', $nb_clubs_planning[0]['planning_count']);
+
+        /* table demandes d'aides */
+
         return $this->view;
+    }
+
+    private function check_authorizations()
+    {
+        if (!LamclubsAuthorizationsService::check_authorizations()->read())
+        {
+            $error_controller = PHPBoostErrors::user_not_authorized();
+            DispatchManager::redirect($error_controller);
+        }
     }
 
     private function generate_response()
@@ -43,7 +78,7 @@ class LamdeskHomeController extends DefaultModuleController
     public static function get_view()
     {
         $object = new self('lamdesk');
-	$object->check_authorizations();
+        $object->check_authorizations();
         $object->build_view(AppContext::get_request());
         return $object->view;
     }

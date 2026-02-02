@@ -22,6 +22,6 @@ class LamdeskExtensionPointProvider extends ModuleExtensionPointProvider
     
     public function home_page()
     {
-        return new DefaultHomePageDisplay($this->get_id(), LamdeskTdbController::get_view());
+        return new DefaultHomePageDisplay($this->get_id(), LamdeskHomeController::get_view());
     }
 }

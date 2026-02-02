@@ -113,7 +113,6 @@
             <col>
         </colgroup>
         <thead class="clubs-thead">
-            <tr><td colspan = "5"><span><b><i>Clubs inscrits : {NB_CLUBS_INSCRITS}/{NB_CLUBS}</i></b></span><span><b><i> soit {RATIO}%</i></b></span></td></tr>
             <tr><th>Département</th><td>Inscrits FFAM</td><td>Inscrits site</td><td>Manifestations prévues</td><td>Demandes financières</td></tr>
         </thead>
         <tbody class="clubs-tbody">

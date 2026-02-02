@@ -16,35 +16,13 @@ class LamdeskClubsController extends DefaultModuleController
 
     public function execute(HTTPRequestCustom $request)
     {
-
         $this->build_view($request);
-
         return $this->generate_response();
     }
 
     public function build_view(HTTPRequestCustom $request)
     {
         $this->view->put('MENU', LamdeskMenu::get_menu());
-
-        /* club ayant au moins 1 membre inscrit */
-        $clubs_members = PersistenceContext::get_querier()->select('SELECT * FROM ' . DB_TABLE_MEMBER . ' member
-        LEFT JOIN ' . DB_TABLE_MEMBER_EXTENDED_FIELDS . ' memext ON member.user_id = memext.user_id
-        ORDER BY memext.f_votre_club
-        ');
-
-        while ($row = $clubs_members->fetch())
-        {
-            $clubs_inscrits[] = $row['f_votre_club'];
-            $clubs_inscrits = array_unique($clubs_inscrits); // évite les doublons
-            $this->view->put('NB_CLUBS_INSCRITS', count($clubs_inscrits));
-        }
-
-        /* nombre de clubs connus */
-        $nb_clubs = PersistenceContext::get_querier()->select('SELECT `ffam_nb` FROM ' . PREFIX . 'lamclubs');
-        $this->view->put('NB_CLUBS', $nb_clubs->get_rows_count());
-        $ratio =  round(count($clubs_inscrits) / $nb_clubs->get_rows_count() * 100, 2);
-
-        $this->view->put('RATIO', $ratio);
 
         /* clubs de la Ligue source FFAM */
         $clubs_ffam = LamdeskService::count_clubs_ffam();

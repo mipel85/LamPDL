@@ -15,49 +15,7 @@ class LamdeskService
         self::$db_querier = PersistenceContext::get_querier();
     }
 
-    public static function count_clubs_ffam()
-    {
-        $req = self::$db_querier->select('select
-            (select count(*) from phpboost_lamclubs),
-            (select count(*) from phpboost_lamclubs where department= 44),
-            (select count(*) from phpboost_lamclubs where department= 49),
-            (select count(*) from phpboost_lamclubs where department= 53),
-            (select count(*) from phpboost_lamclubs where department= 72),
-            (select count(*) from phpboost_lamclubs where department= 85);
-        ');
-
-        while ($row = $req->fetch())
-        {
-            foreach ($row as $club)
-            {
-                $data[] = $club;
-            }
-            return $data;
-        }
-        $req->dispose();
-    }
-
-    public static function get_clubs_by_dept($dept)
-    {
-        if ($dept != '00')
-        {
-            $req = self::$db_querier->select('SELECT lc.name, lc.ffam_nb, lc.website_url 
-        FROM phpboost_lamclubs lc
-        WHERE lc.department = ' . $dept . '');
-        } else
-        {
-            $req = self::$db_querier->select('SELECT lc.name, lc.ffam_nb, lc.website_url 
-        FROM phpboost_lamclubs lc');
-        }
-
-        while ($row = $req->fetch())
-        {
-            $clubs_by_dept[] = $row;
-        }
-        return $clubs_by_dept;
-        $req->dispose();
-    }
-
+/* requêtes onglet accueil */ 
     public static function count_clubs_site()
     {
         $req = self::$db_querier->select('(SELECT
@@ -80,35 +38,29 @@ class LamdeskService
         }
         $req->dispose();
     }
-
-    public static function get_registred_clubs_by_dept($dept)
+    
+    public static function count_clubs_ffam()
     {
-        if ($dept != '00')
-        {
-            $req = self::$db_querier->select('SELECT f_votre_club, m.display_name, m.user_groups, f_dirigeant_de_club 
-                FROM ' . DB_TABLE_MEMBER . ' m
-                LEFT JOIN ' . DB_TABLE_MEMBER_EXTENDED_FIELDS . ' me ON m.user_id = me.user_id
-                WHERE me.f_votre_club LIKE "%- ' . $dept . ' -%"
-                ORDER BY me.f_votre_club, m.display_name ASC
-            ');
-        } else
-        {
-            $req = self::$db_querier->select('SELECT f_votre_club, m.display_name, m.user_groups, f_dirigeant_de_club
-                FROM ' . DB_TABLE_MEMBER . ' m
-                LEFT JOIN ' . DB_TABLE_MEMBER_EXTENDED_FIELDS . ' me ON m.user_id = me.user_id
-                ORDER BY me.f_votre_club, m.display_name ASC
-            ');
-        }
+        $req = self::$db_querier->select('select
+            (select count(*) from phpboost_lamclubs),
+            (select count(*) from phpboost_lamclubs where department= 44),
+            (select count(*) from phpboost_lamclubs where department= 49),
+            (select count(*) from phpboost_lamclubs where department= 53),
+            (select count(*) from phpboost_lamclubs where department= 72),
+            (select count(*) from phpboost_lamclubs where department= 85);
+        ');
 
         while ($row = $req->fetch())
         {
-            $data[] = $row;
+            foreach ($row as $club)
+            {
+                $data[] = $club;
+            }
+            return $data;
         }
-        return $data;
         $req->dispose();
     }
     
-    // requêtes financial    
     public static function count_clubs_planning()
     {
         $req = self::$db_querier->select('SELECT "Total" AS department,
@@ -138,6 +90,59 @@ class LamdeskService
         return $data;
         $req->dispose();
     }
+    
+/* requêtes onglet clubs */ 
+    public static function get_clubs_by_dept($dept)
+    {
+        if ($dept != '00')
+        {
+            $req = self::$db_querier->select('SELECT lc.name, lc.ffam_nb, lc.website_url 
+        FROM phpboost_lamclubs lc
+        WHERE lc.department = ' . $dept . '');
+        } else
+        {
+            $req = self::$db_querier->select('SELECT lc.name, lc.ffam_nb, lc.website_url 
+        FROM phpboost_lamclubs lc');
+        }
+
+        while ($row = $req->fetch())
+        {
+            $clubs_by_dept[] = $row;
+        }
+        return $clubs_by_dept;
+        $req->dispose();
+    }
+
+    
+
+    public static function get_registred_clubs_by_dept($dept)
+    {
+        if ($dept != '00')
+        {
+            $req = self::$db_querier->select('SELECT f_votre_club, m.display_name, m.user_groups, f_dirigeant_de_club 
+                FROM ' . DB_TABLE_MEMBER . ' m
+                LEFT JOIN ' . DB_TABLE_MEMBER_EXTENDED_FIELDS . ' me ON m.user_id = me.user_id
+                WHERE me.f_votre_club LIKE "%- ' . $dept . ' -%"
+                ORDER BY me.f_votre_club, m.display_name ASC
+            ');
+        } else
+        {
+            $req = self::$db_querier->select('SELECT f_votre_club, m.display_name, m.user_groups, f_dirigeant_de_club
+                FROM ' . DB_TABLE_MEMBER . ' m
+                LEFT JOIN ' . DB_TABLE_MEMBER_EXTENDED_FIELDS . ' me ON m.user_id = me.user_id
+                ORDER BY me.f_votre_club, m.display_name ASC
+            ');
+        }
+
+        while ($row = $req->fetch())
+        {
+            $data[] = $row;
+        }
+        return $data;
+        $req->dispose();
+    }
+    
+    
 
     public static function get_clubs_with_activity()
     {
