@@ -3,7 +3,7 @@
  * @copyright   &copy; 2005-2024 PHPBoost
  * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL-3.0
  * @author      mipel <mipel@phpboost.com>
- * @version     PHPBoost 6.0 - last update: 2024 12 22
+ * @version     PHPBoost 6.0 - last update: 2026 02 04
  * @since       PHPBoost 6.0 - 2024 12 22
  */
 class LamdeskService
@@ -15,7 +15,7 @@ class LamdeskService
         self::$db_querier = PersistenceContext::get_querier();
     }
 
-/* requêtes onglet accueil */ 
+    /* requêtes onglet accueil */
     public static function count_clubs_site()
     {
         $req = self::$db_querier->select('(SELECT
@@ -38,7 +38,7 @@ class LamdeskService
         }
         $req->dispose();
     }
-    
+
     public static function count_clubs_ffam()
     {
         $req = self::$db_querier->select('select
@@ -60,7 +60,23 @@ class LamdeskService
         }
         $req->dispose();
     }
-    
+
+    public static function count_event_current_year()
+    {
+        $req = self::$db_querier->select('SELECT COUNT(*) AS current_year_event,
+            COUNT(DISTINCT `lamclubs_id`) AS clubs
+            FROM phpboost_planning
+            WHERE start_date >= UNIX_TIMESTAMP(MAKEDATE(YEAR(CURDATE()), 1))
+            AND start_date <  UNIX_TIMESTAMP(MAKEDATE(YEAR(CURDATE()) + 1, 1))
+            AND start_date > UNIX_TIMESTAMP(CURDATE())
+            ');
+        while ($row = $req->fetch())
+        {
+            return $row;
+        }
+        $req->dispose();
+    }
+
     public static function count_clubs_planning()
     {
         $req = self::$db_querier->select('SELECT "Total" AS department,
@@ -90,8 +106,8 @@ class LamdeskService
         return $data;
         $req->dispose();
     }
-    
-/* requêtes onglet clubs */ 
+
+    /* requêtes onglet clubs */
     public static function get_clubs_by_dept($dept)
     {
         if ($dept != '00')
@@ -112,8 +128,6 @@ class LamdeskService
         return $clubs_by_dept;
         $req->dispose();
     }
-
-    
 
     public static function get_registred_clubs_by_dept($dept)
     {
@@ -141,24 +155,27 @@ class LamdeskService
         return $data;
         $req->dispose();
     }
-    
-    
 
-    public static function get_clubs_with_activity()
+    public static function count_activity_by_club_current_year()
     {
-        $req = self::$db_querier->select('SELECT pl.lamclubs_id, lc.name, lc.ffam_nb  
-            FROM ' . PlanningSetup::$planning_table . ' pl
-            LEFT JOIN ' . LamclubsSetup::$lamclubs_table . ' lc ON pl.lamclubs_id = lc.club_id 
-        ');
+        $req = self::$db_querier->select('SELECT
+            lc.department,
+            COUNT(p.activity_detail) AS nb
+            FROM ' . LamclubsSetup::$lamclubs_table . ' lc
+            LEFT JOIN ' . PlanningSetup::$planning_table . ' p
+            ON p.lamclubs_id = lc.club_id
+            AND p.start_date >= UNIX_TIMESTAMP(CURDATE())
+            AND p.start_date <  UNIX_TIMESTAMP(MAKEDATE(YEAR(CURDATE()) + 1, 1))
+            WHERE lc.department IN (44, 49, 53, 72, 85)
+            GROUP BY lc.department
+            ORDER BY lc.department
+            ');
 
         while ($row = $req->fetch())
         {
-            foreach ($row as $clubs)
-            {
-                $data[] = $clubs;
-            }
-            return $data;
+            $data[] = $row;
         }
+        return $data;
         $req->dispose();
     }
 

@@ -10,11 +10,11 @@
         </thead>
         <tbody>
             <tr>
-                <td class="nb_clubs">Nb. clubs FFAM</td>
+                <td class="nb_clubs">Clubs source FFAM</td>
                 <td>{NB_CLUBS_FFAM}</td><td><a href="{PATH_TO_ROOT}/lamdesk/clubs/">Détails</a></td>
             </tr>
             <tr>
-                <td>Nb. clubs inscrits</td>
+                <td>Clubs inscrits sur le site</td>
                 <td>{NB_CLUBS_INSCRITS}</td>
                 <td>{RATIO} inscrits</td>
             </tr>
@@ -28,12 +28,30 @@
         </thead>
         <tbody>
             <tr>
-                <td class="nb_clubs">Nb. de manifestations inscrites</td>
-                <td>{NB_CLUBS_MANIFS}</td><td><a href="{PATH_TO_ROOT}/planning/">Détails</a></td>
+            <tr>
+                <td>Clubs organisateurs</td>
+                <td>{NB_CLUBS_ID}</td>
+            </tr>
+                <td class="nb_clubs">Prévues à ce jour</td>
+                <td>{NB_CLUBS_EVENTS}</td><td><a href="{PATH_TO_ROOT}/planning/">Détails</a></td>
+            </tr>
+            <tr>---</tr>
+            <tr>
+            <tr><th colspan="3">** Manifestations par département **</th></tr>
+                <td>44 - Loire Atlantique</td>
+                <td>{NB_44}</td>
             </tr>
             <tr>
-                <td>Nb. clubs organisateurs</td>
-                <td>{NB_CLUBS_MANIFS}</td>
+                <td>49 - Maine et Loire</td><td>{NB_49}</td>
+            </tr>
+            <tr>
+                <td>53 - Mayenne</td><td>{NB_53}</td>
+            </tr>
+            <tr>
+                <td>72 - Sarthe</td><td>{NB_72}</td>
+            </tr>
+            <tr>
+                <td>85 - Vendée</td><td>{NB_85}</td>
             </tr>
         </tbody>
     </table>
