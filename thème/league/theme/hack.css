@@ -131,7 +131,7 @@ h1, h2, h3, h4 {
         width: 40%;
     }
     .form-field-email,
-        [type="email"] {
+    [type="email"] {
         width: 90%;
     }
 }
@@ -149,25 +149,24 @@ h1, h2, h3, h4 {
 
 .html-table-filters .filters-container {
     text-align: left;
-	position: absolute;
+    position: absolute;
     right: 0;
     top: 100%;
-    width: 35%;
+    width: 55%;
     background-color: var(--bgc-main);
     z-index: 2;
-	opacity: 0;
-	visibility: hidden;
-	height: 0;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
 }
 
-.filters-container .form-element > * {
-    width: 50%;
-}
+.filters-container .form-element > label {width: 25%;}
+.filters-container .form-element > .form-field {width: 65%;}
 
 .html-table-filters.opened .filters-container {
-	opacity: 1;
-	visibility: visible;
-	height: auto;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
 }
 
 /* --- Modules --- */
