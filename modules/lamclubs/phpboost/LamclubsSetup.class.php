@@ -3,7 +3,7 @@
  * @copyright   &copy; 2005-2025 PHPBoost
  * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL-3.0
  * @author      Sebastien LARTIGUE <babsolune@phpboost.com>
- * @version     PHPBoost 6.0 - last update: 2025 01 12
+ * @version     PHPBoost 6.0 - last update: 2026 02 21
  * @since       PHPBoost 6.0 - 2024 12 11
  */
 
@@ -68,7 +68,7 @@ class LamclubsSetup extends DefaultModuleSetup
         $file = PATH_TO_ROOT . '/modules/lamclubs/data/lamclubs.csv';
         if (($handle = fopen($file, 'r')) !== FALSE)
         {
-            while(($data = fgetcsv($handle, 1000, ';')) !== FALSE)
+            while (($data = fgetcsv($handle, 1000, ';', '"', '\\')) !== false)
             {
                 PersistenceContext::get_querier()->insert(self::$lamclubs_table, array(
                     'club_id'     => $data[0],
