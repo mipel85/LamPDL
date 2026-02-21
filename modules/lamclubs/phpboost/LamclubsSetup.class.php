@@ -65,7 +65,7 @@ class LamclubsSetup extends DefaultModuleSetup
 
     private function insert_data()
     {
-        $file = PATH_TO_ROOT . '/lamclubs/data/lamclubs.csv';
+        $file = PATH_TO_ROOT . '/modules/lamclubs/data/lamclubs.csv';
         if (($handle = fopen($file, 'r')) !== FALSE)
         {
             while(($data = fgetcsv($handle, 1000, ';')) !== FALSE)

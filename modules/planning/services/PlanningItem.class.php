@@ -237,7 +237,7 @@ class PlanningItem
 
     public function get_thumbnail()
     {
-        if (!$this->thumbnail_url instanceof Url) return new Url($this->thumbnail_url == FormFieldThumbnail::DEFAULT_VALUE ? FormFieldThumbnail::get_default_thumbnail_url(self::THUMBNAIL_URL) : $this->thumbnail_url);
+        if (!$this->thumbnail_url instanceof Url) return new Url(($this->thumbnail_url == FormFieldThumbnail::DEFAULT_VALUE ? FormFieldThumbnail::get_default_thumbnail_url(self::THUMBNAIL_URL) : $this->thumbnail_url) ?? '');
 
         return $this->thumbnail_url;
     }

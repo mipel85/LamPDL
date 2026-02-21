@@ -106,7 +106,7 @@ class FinancialSetup extends DefaultModuleSetup
     private function insert_data()
     {
         $now = new Date();
-        $file = PATH_TO_ROOT . '/financial/data/budgets.csv';
+        $file = PATH_TO_ROOT . '/modules/financial/data/budgets.csv';
         if (($handle = fopen($file, 'r')) !== false) {
             fgetcsv($handle, 1000, ";", "\"", "\\"); // ignore first row
             while(($data = fgetcsv($handle, 1000, ";", "\"", "\\")) !== false) {

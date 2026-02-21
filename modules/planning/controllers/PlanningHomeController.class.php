@@ -3,7 +3,7 @@
  * @copyright   &copy; 2005-2023 PHPBoost
  * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL-3.0
  * @author      Sebastien LARTIGUE <babsolune@phpboost.com>
- * @version     PHPBoost 6.0 - last update: 2026 02 05
+ * @version     PHPBoost 6.0 - last update: 2024 12 11
  * @since       PHPBoost 6.0 - 2024 02 25
  */
 
@@ -23,13 +23,12 @@ class PlanningHomeController extends DefaultModuleController
         if ($c_clubs && $c_categories)
         {
             $current_page = $this->build_table();
-        } else
+        }else
         {
             $current_page = $this->build_warnings();
         }
 
-        if ($this->display_multiple_delete)
-            $this->execute_multiple_delete_if_needed($request);
+        if ($this->display_multiple_delete) $this->execute_multiple_delete_if_needed($request);
 
         return $this->generate_response($current_page);
     }
@@ -37,13 +36,13 @@ class PlanningHomeController extends DefaultModuleController
     private function build_table()
     {
         $columns = array(
-            new HTMLTableColumn($this->lang['date.date'], 'start_date'),
-            new HTMLTableColumn($this->lang['planning.activities'], 'id_category'),
-            new HTMLTableColumn($this->lang['planning.activity.detail'], 'activity_detail'),
-            new HTMLTableColumn($this->lang['planning.club.department'], 'department'),
-            new HTMLTableColumn($this->lang['planning.club.name'], 'name'),
-            new HTMLTableColumn($this->lang['common.see.details'], 'content'),
-            new HTMLTableColumn('')
+          new HTMLTableColumn($this->lang['date.date'], 'start_date'),
+          new HTMLTableColumn($this->lang['planning.activities'], 'id_category'),
+          new HTMLTableColumn($this->lang['planning.activity.detail'], 'activity_detail'),
+          new HTMLTableColumn($this->lang['planning.club.department'], 'department'),
+          new HTMLTableColumn($this->lang['planning.club.name'], 'name'),
+          new HTMLTableColumn($this->lang['common.see.details'], 'content'),
+          new HTMLTableColumn('')
         );
 
         $table_model = new SQLHTMLTableModel(PlanningSetup::$planning_table, 'items-list', $columns, new HTMLTableSortingRule('start_date', HTMLTableSortingRule::ASC));
@@ -54,7 +53,7 @@ class PlanningHomeController extends DefaultModuleController
         $table_model->add_filter(new HTMLTableDateGreaterThanOrEqualsToSQLFilter('start_date', 'filter1', $this->lang['date.date'] . ' ' . TextHelper::lcfirst($this->lang['common.minimum'])));
         $table_model->add_filter(new HTMLTableDateLessThanOrEqualsToSQLFilter('start_date', 'filter2', $this->lang['date.date'] . ' ' . TextHelper::lcfirst($this->lang['common.maximum'])));
         $table_model->add_filter(new HTMLTableEqualsFromListSQLFilter('department', 'filter3', $this->lang['planning.club.department'], array(44 => 44, 49 => 49, 53 => 53, 72 => 72, 85 => 85)));
-        $table_model->add_filter(new PlanningHTMLTableCategorySQLFilter('filter4', $this->lang['planning.activities'])); // permet d'accéder aux catégories pour le sélecteur d'activités
+        $table_model->add_filter(new HTMLTableCategorySQLFilter('filter4', $this->lang['planning.activities']));
 
         $now = new Date();
         $clear = new Date($now->get_timestamp() - 86400, Timezone::SERVER_TIMEZONE);
@@ -66,7 +65,7 @@ class PlanningHomeController extends DefaultModuleController
         $results = array();
         $result = $table_model->get_sql_results('pl
             LEFT JOIN ' . DB_TABLE_MEMBER . ' member ON member.user_id = pl.author_user_id
-            LEFT JOIN ' . LamclubsSetup::$lamclubs_table . ' club ON club.club_id = pl.lamclubs_id'
+			LEFT JOIN ' . LamclubsSetup::$lamclubs_table . ' club ON club.club_id = pl.lamclubs_id'
         );
 
         $items = array();
@@ -82,7 +81,7 @@ class PlanningHomeController extends DefaultModuleController
                 $moderation_link_number++;
                 $this->items_number++;
                 $this->ids[$this->items_number] = $item->get_id();
-            } else
+            }else 
                 $this->hide_delete_input[] = $item->get_id();
         }
 
@@ -118,18 +117,17 @@ class PlanningHomeController extends DefaultModuleController
                 $cancel_class = $item->is_cancelled() ? ' bgc error' : '';
                 $title = $item->is_cancelled() ? '<span class="text-strike">' . $title . '</span><br />' . $this->lang['planning.cancelled.item'] : $title;
                 $row = array(
-                    new HTMLTableRowCell(($c_end_date ? $this->lang['date.from.date'] : '') . ' ' . $item->get_start_date()->format(Date::FORMAT_DAY_MONTH_YEAR) . ($c_end_date ? $br->display() . $this->lang['date.to.date'] . ' ' . $item->get_end_date()->format(Date::FORMAT_DAY_MONTH_YEAR) : ''), 'align-left' . $cancel_class),
-                    new HTMLTableRowCell($title, 'align-left' . $cancel_class),
-                    new HTMLTableRowCell($item->get_activity_detail(), 'align-left' . $cancel_class),
-                    new HTMLTableRowCell($club->get_department(), $cancel_class),
-                    new HTMLTableRowCell($club->get_name(), 'align-left' . $cancel_class),
-                    new HTMLTableRowCell($visitor_link),
-                    $moderation_link_number ? new HTMLTableRowCell($edit_link . $delete_link, 'controls') : null
+                  new HTMLTableRowCell(($c_end_date ? $this->lang['date.from.date'] : '') . ' ' . $item->get_start_date()->format(Date::FORMAT_DAY_MONTH_YEAR) . ($c_end_date ? $br->display() . $this->lang['date.to.date'] . ' ' . $item->get_end_date()->format(Date::FORMAT_DAY_MONTH_YEAR) : ''), 'align-left' . $cancel_class),
+                  new HTMLTableRowCell($title, 'align-left' . $cancel_class),
+                  new HTMLTableRowCell($item->get_activity_detail(), 'align-left' . $cancel_class),
+                  new HTMLTableRowCell($club->get_department(), $cancel_class),
+                  new HTMLTableRowCell($club->get_name(), 'align-left' . $cancel_class),
+                  new HTMLTableRowCell($visitor_link),
+                  $moderation_link_number ? new HTMLTableRowCell($edit_link . $delete_link, 'controls') : null
                 );
 
                 $table_row = new HTMLTableRow($row);
-                if (in_array($item->get_id(), $this->hide_delete_input))
-                    $table_row->hide_delete_input();
+                if (in_array($item->get_id(), $this->hide_delete_input)) $table_row->hide_delete_input();
 
                 $results[] = $table_row;
             }
@@ -192,8 +190,9 @@ class PlanningHomeController extends DefaultModuleController
                         $item = '';
                         try
                             {
-                            $item = PlanningService::get_item($this->ids[$i]);
-                            } catch (RowNotFoundException $e)
+                                $item = PlanningService::get_item($this->ids[$i]);
+                            }
+                        catch (RowNotFoundException $e)
                             {
                             
                             }
