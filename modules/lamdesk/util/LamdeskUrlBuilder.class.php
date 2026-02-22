@@ -7,21 +7,30 @@
  * @since       PHPBoost 6.0 - 2024 12 22
  */
 
-class LamTDBUrlBuilder
+class LamdeskUrlBuilder
 {
-    private static $dispatcher = '/LamTDB';
+    private static $dispatcher = '/lamdesk';
+    
     
     public static function clubs()
     {
         return DispatchManager::get_url(self::$dispatcher, '/clubs/');
     }
     
-    /**
-     * @return Url
-     */
+    public static function clubs_ajax()
+    {
+        return DispatchManager::get_url(self::$dispatcher, '/clubs_ajax/');
+    }
+    
+    public static function dates()
+    {
+        return DispatchManager::get_url(self::$dispatcher, '/dates/');
+    }
+    
     public static function home()
     {
-        return DispatchManager::get_url(self::$dispatcher, '/');
+        return DispatchManager::get_url(self::$dispatcher, '/home/');
     }
+    
 }
 ?>

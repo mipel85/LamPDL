@@ -12,10 +12,10 @@ define('PATH_TO_ROOT', '..');
 require_once PATH_TO_ROOT . '/kernel/init.php';
 
 $url_controller_mappers = array(
-    new UrlControllerMapper('LamTDBHomeController', '`^(?:/([0-9]+))?/?$`'),
-    
-    // Manage clubs
-    new UrlControllerMapper('LamTDBClubsController', '`^/clubs/?$`')
+    new UrlControllerMapper('LamdeskClubsController', '`^/clubs/?$`'),
+    new UrlControllerMapper('LamdeskClubsAjaxController', '`^/clubs_ajax/?$`'),
+    new UrlControllerMapper('LamdeskDatesController', '`^/dates/?$`'),
+    new UrlControllerMapper('LamdeskHomeController', '`^/home/?$`'),
 );
 
 DispatchManager::dispatch($url_controller_mappers);

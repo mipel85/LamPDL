@@ -11,6 +11,12 @@
 #                    French                        #
 ####################################################
 
-$lang['lamtdb.module.title'] = 'Tableau de bord Lam PDL';
+$lang['lamdesk.menu'] = 'Menu';
+$lang['lamdesk.tdb'] = 'Tableau de bord';
+
+$lang['lamdesk.club.registered'] = 'Clubs inscrits sur le site';
+$lang['lamdesk.club.registered.nb'] = 'Clubs inscrits : ';
+
+
 
 ?>
