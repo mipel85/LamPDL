@@ -57,8 +57,8 @@
                     jQuery('#thead_clubs_site').append('<tr><th>Club</th><th>Interlocuteur</th><th>Dirigeant</th><th>Ligue</th></tr>');
                     jQuery.each(data, function (index, value) {
                         jQuery.each(value, function (index, nom) {
-                            let dirigeant = (nom.f_dirigeant_de_club == "Oui") ? '<img class="img_center" src=" ../templates/images/icons8-ok-16.png">' : '<img class="img_center" src=" ../templates/images/icons8-no-16.png">';
-                            let ligue = (nom.user_groups == "1|2" || nom.user_groups == "2") ? '<img class="img_center" src=" ../templates/images/icons8-ok-16.png">' : '<img class="img_center" src=" ../templates/images/icons8-no-16.png">';
+                            let dirigeant = (nom.f_dirigeant_de_club == "Oui") ? '<img class="img_center" src="/modules/lamdesk/templates/images/icons8-ok-16.png">' : '<img class="img_center" src=" /modules/lamdesk/templates/images/icons8-no-16.png">';
+                            let ligue = (nom.user_groups == "1|2" || nom.user_groups == "2") ? '<img class="img_center" src=" /modules/lamdesk/templates/images/icons8-ok-16.png">' : '<img class="img_center" src=" /modules/lamdesk/templates/images/icons8-no-16.png">';
                             jQuery('#tbody_clubs_site').append('<tr><td>' + nom.f_votre_club + '</td><td>' + nom.display_name + '</td><td>' + dirigeant + '</td><td>' + ligue + '</td></tr>');
                         });
                     });

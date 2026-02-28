@@ -7,7 +7,7 @@
  * @since       PHPBoost 6.0 - 2024 12 22
  */
 
-define('PATH_TO_ROOT', '..');
+define('PATH_TO_ROOT', '../..');
 
 require_once PATH_TO_ROOT . '/kernel/init.php';
 
@@ -15,7 +15,7 @@ $url_controller_mappers = array(
     new UrlControllerMapper('LamdeskClubsController', '`^/clubs/?$`'),
     new UrlControllerMapper('LamdeskClubsAjaxController', '`^/clubs_ajax/?$`'),
     new UrlControllerMapper('LamdeskDatesController', '`^/dates/?$`'),
-    new UrlControllerMapper('LamdeskHomeController', '`^/home/?$`'),
+    new UrlControllerMapper('LamdeskHomeController', '`^/?$`'),
 );
 
 DispatchManager::dispatch($url_controller_mappers);
