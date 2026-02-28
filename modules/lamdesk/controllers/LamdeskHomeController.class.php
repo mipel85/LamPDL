@@ -3,12 +3,12 @@
  * @copyright   &copy; 2005-2024 PHPBoost
  * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL-3.0
  * @author      mipel <mipel@phpboost.com>
- * @version     PHPBoost 6.0 - last update: 2026 02 04
+ * @version     PHPBoost 6.0 - last update: 2026 02 28
  * @since       PHPBoost 6.0 - 2024 12 22
  */
 class LamdeskHomeController extends DefaultModuleController
 {
-    private $version = '04.02.26';
+    private $version = '28.02.26';
 
     protected function get_template_to_use()
     {
