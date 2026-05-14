@@ -3,7 +3,7 @@
  * @copyright   &copy; 2005-2023 PHPBoost
  * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL-3.0
  * @author      Sebastien LARTIGUE <babsolune@phpboost.com>
- * @version     PHPBoost 6.0 - last update: 2024 12 11
+ * @version     PHPBoost 6.0 - last update: 2026 05 14
  * @since       PHPBoost 6.0 - 2020 01 18
  */
 class FinancialRequestItem
@@ -264,7 +264,7 @@ class FinancialRequestItem
         $this->lamclubs_id = $properties['lamclubs_id'];
         $this->event_date = new Date($properties['event_date'], Timezone::SERVER_TIMEZONE);
         $this->creation_date = new Date($properties['creation_date'], Timezone::SERVER_TIMEZONE);
-        $this->estimate_amount = $properties['estimate_amount'];
+        $this->estimate_amount = $properties['estimate_amount'] ?? 0;
         $this->invoice_url = new Url($properties['invoice_url']);
         $this->amount_paid = $properties['amount_paid'];
         $this->agreement = $properties['agreement'];
